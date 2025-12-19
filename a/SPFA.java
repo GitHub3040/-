@@ -4,7 +4,7 @@ import java.util.Arrays;
 public class SPFA {
     private static int m,n;
     private static int MAXN=2001;
-    private static int MAXM=3001;
+    private static int MAXM=6001;
     private static int[] head=new int[MAXN];
     private static int[] next=new int[MAXM];
     private static int[] to=new int[MAXM];
@@ -23,7 +23,7 @@ public class SPFA {
         l=0;r=0;
         Arrays.fill(head,1,n+1,0);
         Arrays.fill(distance,1,n+1,Integer.MAX_VALUE);
-        Arrays.fill(updateCnt,1,n+1,Integer.MAX_VALUE);
+        Arrays.fill(updateCnt,1,n+1,0);
         Arrays.fill(enter,1,n+1,false);
     }
 
@@ -38,25 +38,29 @@ public class SPFA {
         BufferedReader bf=new BufferedReader(new InputStreamReader(System.in));
         StreamTokenizer in=new StreamTokenizer(bf);
         PrintWriter out=new PrintWriter(new OutputStreamWriter(System.out));
-        while (in.nextToken()!=StreamTokenizer.TT_EOF){
-            int t=(int) in.nval;
+        in.nextToken();
+        int t=(int) in.nval;
+        for (int i = 0; i < t; i++) {
             in.nextToken();
-            for (int i = 0; i < t; i++) {
-                n=(int) in.nval;
+            n=(int) in.nval;
+            in.nextToken();
+            m=(int) in.nval;
+            build();
+            for (int j = 0,u,v,w; j < m; j++) {
                 in.nextToken();
-                m=(int) in.nval;
-                build();
-                for (int j = 0,u,v,w; j < m; j++) {
-                    in.nextToken();
-                    u = (int) in.nval;
-                    in.nextToken();
-                    v = (int) in.nval;
-                    in.nextToken();
-                    w = (int) in.nval;
+                u = (int) in.nval;
+                in.nextToken();
+                v = (int) in.nval;
+                in.nextToken();
+                w = (int) in.nval;
+                if (w >= 0) {
+                    addEdge(u, v, w);
+                    addEdge(v, u, w); // ← 添加反向边
+                } else {
                     addEdge(u, v, w);
                 }
-                out.println(SPFA() ? "YEA" : "NO");
             }
+            out.println(SPFA() ? "YES" : "NO");
         }
         out.flush();
         out.close();
